@@ -5,17 +5,17 @@ from no_username_cookiecutter.users.models import CustomUser
 
 class TestUserAdmin:
     def test_changelist(self, admin_client):
-        url = reverse("admin:users_user_changelist")
+        url = reverse("admin:users_customuser_changelist")
         response = admin_client.get(url)
         assert response.status_code == 200
 
     def test_search(self, admin_client):
-        url = reverse("admin:users_user_changelist")
+        url = reverse("admin:users_customuser_changelist")
         response = admin_client.get(url, data={"q": "test"})
         assert response.status_code == 200
 
     def test_add(self, admin_client):
-        url = reverse("admin:users_user_add")
+        url = reverse("admin:users_customuser_add")
         response = admin_client.get(url)
         assert response.status_code == 200
 
@@ -32,6 +32,6 @@ class TestUserAdmin:
 
     def test_view_user(self, admin_client):
         user = CustomUser.objects.get(email="admin@email.com")
-        url = reverse("admin:users_user_change", kwargs={"object_id": user.pk})
+        url = reverse("admin:users_customuser_change", kwargs={"object_id": user.pk})
         response = admin_client.get(url)
         assert response.status_code == 200
