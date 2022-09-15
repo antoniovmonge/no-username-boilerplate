@@ -1,14 +1,13 @@
 from django.urls import resolve, reverse
 
-from no_username_cookiecutter.users.models import User
+from no_username_cookiecutter.users.models import CustomUser
 
 
-def test_detail(user: User):
+def test_detail(user: CustomUser):
     assert (
-        reverse("users:detail", kwargs={"username": user.username})
-        == f"/users/{user.username}/"
+        reverse("users:detail", kwargs={"email": user.email}) == f"/users/{user.email}/"
     )
-    assert resolve(f"/users/{user.username}/").view_name == "users:detail"
+    assert resolve(f"/users/{user.email}/").view_name == "users:detail"
 
 
 def test_update():

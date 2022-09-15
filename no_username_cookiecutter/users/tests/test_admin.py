@@ -1,6 +1,6 @@
 from django.urls import reverse
 
-from no_username_cookiecutter.users.models import User
+from no_username_cookiecutter.users.models import CustomUser
 
 
 class TestUserAdmin:
@@ -22,16 +22,16 @@ class TestUserAdmin:
         response = admin_client.post(
             url,
             data={
-                "username": "test",
+                "email": "mrtest@email.com",
                 "password1": "My_R@ndom-P@ssw0rd",
                 "password2": "My_R@ndom-P@ssw0rd",
             },
         )
         assert response.status_code == 302
-        assert User.objects.filter(username="test").exists()
+        assert CustomUser.objects.filter(email="mrtest@email.com").exists()
 
     def test_view_user(self, admin_client):
-        user = User.objects.get(username="admin")
+        user = CustomUser.objects.get(email="admin@email.com")
         url = reverse("admin:users_user_change", kwargs={"object_id": user.pk})
         response = admin_client.get(url)
         assert response.status_code == 200
