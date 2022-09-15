@@ -8,8 +8,8 @@ from django.http import HttpRequest, HttpResponseRedirect
 from django.test import RequestFactory
 from django.urls import reverse
 
-from no_username_cookiecutter.users.forms import UserAdminChangeForm
-from no_username_cookiecutter.users.models import User
+from no_username_cookiecutter.users.forms import CustomUserChangeForm
+from no_username_cookiecutter.users.models import CustomUser
 from no_username_cookiecutter.users.tests.factories import UserFactory
 from no_username_cookiecutter.users.views import (
     UserRedirectView,
@@ -32,16 +32,16 @@ class TestUserUpdateView:
     def dummy_get_response(self, request: HttpRequest):
         return None
 
-    def test_get_success_url(self, user: User, rf: RequestFactory):
+    def test_get_success_url(self, user: CustomUser, rf: RequestFactory):
         view = UserUpdateView()
         request = rf.get("/fake-url/")
         request.user = user
 
         view.request = request
 
-        assert view.get_success_url() == f"/users/{user.username}/"
+        assert view.get_success_url() == f"/users/{user.email}/"
 
-    def test_get_object(self, user: User, rf: RequestFactory):
+    def test_get_object(self, user: CustomUser, rf: RequestFactory):
         view = UserUpdateView()
         request = rf.get("/fake-url/")
         request.user = user
@@ -50,7 +50,7 @@ class TestUserUpdateView:
 
         assert view.get_object() == user
 
-    def test_form_valid(self, user: User, rf: RequestFactory):
+    def test_form_valid(self, user: CustomUser, rf: RequestFactory):
         view = UserUpdateView()
         request = rf.get("/fake-url/")
 
@@ -62,7 +62,7 @@ class TestUserUpdateView:
         view.request = request
 
         # Initialize the form
-        form = UserAdminChangeForm()
+        form = CustomUserChangeForm()
         form.cleaned_data = {}
         form.instance = user
         view.form_valid(form)
@@ -72,30 +72,30 @@ class TestUserUpdateView:
 
 
 class TestUserRedirectView:
-    def test_get_redirect_url(self, user: User, rf: RequestFactory):
+    def test_get_redirect_url(self, user: CustomUser, rf: RequestFactory):
         view = UserRedirectView()
         request = rf.get("/fake-url")
         request.user = user
 
         view.request = request
 
-        assert view.get_redirect_url() == f"/users/{user.username}/"
+        assert view.get_redirect_url() == f"/users/{user.email}/"
 
 
 class TestUserDetailView:
-    def test_authenticated(self, user: User, rf: RequestFactory):
+    def test_authenticated(self, user: CustomUser, rf: RequestFactory):
         request = rf.get("/fake-url/")
         request.user = UserFactory()
 
-        response = user_detail_view(request, username=user.username)
+        response = user_detail_view(request, email=user.email)
 
         assert response.status_code == 200
 
-    def test_not_authenticated(self, user: User, rf: RequestFactory):
+    def test_not_authenticated(self, user: CustomUser, rf: RequestFactory):
         request = rf.get("/fake-url/")
         request.user = AnonymousUser()
 
-        response = user_detail_view(request, username=user.username)
+        response = user_detail_view(request, email=user.email)
         login_url = reverse(settings.LOGIN_URL)
 
         assert isinstance(response, HttpResponseRedirect)

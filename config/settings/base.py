@@ -29,7 +29,7 @@ LANGUAGE_CODE = "en-us"
 # https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
-USE_I18N = True
+USE_I18N = False
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-l10n
 USE_L10N = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
@@ -98,7 +98,8 @@ AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
-AUTH_USER_MODEL = "users.User"
+# AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = "users.CustomUser"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
 LOGIN_REDIRECT_URL = "users:redirect"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
@@ -283,12 +284,12 @@ CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 # ------------------------------------------------------------------------------
 ACCOUNT_ALLOW_REGISTRATION = env.bool("DJANGO_ACCOUNT_ALLOW_REGISTRATION", True)
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_AUTHENTICATION_METHOD = "username"
-# https://django-allauth.readthedocs.io/en/latest/configuration.html
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
-# https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-# https://django-allauth.readthedocs.io/en/latest/configuration.html
+
 ACCOUNT_ADAPTER = "no_username_cookiecutter.users.adapters.AccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/forms.html
 ACCOUNT_FORMS = {"signup": "no_username_cookiecutter.users.forms.UserSignupForm"}

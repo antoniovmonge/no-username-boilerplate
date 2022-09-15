@@ -1,29 +1,39 @@
 from allauth.account.forms import SignupForm
 from allauth.socialaccount.forms import SignupForm as SocialSignupForm
-from django.contrib.auth import forms as admin_forms
-from django.contrib.auth import get_user_model
-from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 
-User = get_user_model()
+from .models import CustomUser
 
-
-class UserAdminChangeForm(admin_forms.UserChangeForm):
-    class Meta(admin_forms.UserChangeForm.Meta):
-        model = User
+# User = get_user_model()
 
 
-class UserAdminCreationForm(admin_forms.UserCreationForm):
-    """
-    Form for User Creation in the Admin Area.
-    To change user signup, see UserSignupForm and UserSocialSignupForm.
-    """
+# class UserAdminChangeForm(admin_forms.UserChangeForm):
+#     class Meta(admin_forms.UserChangeForm.Meta):
+#         model = User
 
-    class Meta(admin_forms.UserCreationForm.Meta):
-        model = User
 
-        error_messages = {
-            "username": {"unique": _("This username has already been taken.")}
-        }
+# class UserAdminCreationForm(admin_forms.UserCreationForm):
+#     """
+#     Form for User Creation in the Admin Area.
+#     To change user signup, see UserSignupForm and UserSocialSignupForm.
+#     """
+
+#     class Meta(admin_forms.UserCreationForm.Meta):
+#         model = User
+
+#         error_messages = {"email": {"unique": _("This email has already been taken.")}}
+
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta:
+        model = CustomUser
+        fields = ("email",)
+
+
+class CustomUserChangeForm(UserChangeForm):
+    class Meta:
+        model = CustomUser
+        fields = ("email",)
 
 
 class UserSignupForm(SignupForm):

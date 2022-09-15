@@ -1,6 +1,6 @@
 import pytest
 
-from no_username_cookiecutter.users.models import User
+from no_username_cookiecutter.users.models import CustomUser
 from no_username_cookiecutter.users.tests.factories import UserFactory
 
 
@@ -10,5 +10,5 @@ def media_storage(settings, tmpdir):
 
 
 @pytest.fixture
-def user(db) -> User:
+def user(db) -> CustomUser:
     return UserFactory()
