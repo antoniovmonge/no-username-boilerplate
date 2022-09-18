@@ -7,6 +7,48 @@ Cookiecutter without f**** username!
 
 License: MIT
 
+## Remove all
+
+```bash
+docker system prune --volumes -a -f
+```
+
+```bash
+docker system prune -a -f
+```
+
+## Build / Run the Image
+
+```bash
+docker-compose -f local.yml build
+```
+
+```bash
+docker-compose -f local.yml up
+```
+
+```bash
+docker-compose -f local.yml up --build
+```
+
+## Set the default compose-file
+
+```bash
+export COMPOSE_FILE=local.yml
+```
+
+## Execute Management Commands
+
+```bash
+docker-compose -f local.yml run --rm django python manage.py create_local_user_and_admin
+```
+
+```bash
+docker-compose -f local.yml run --rm django python manage.py migrate
+docker-compose -f local.yml run --rm django python manage.py createsuperuser
+docker-compose -f local.yml run --rm django coverage run -m pytest
+```
+
 ## Settings
 
 Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings.html).
@@ -15,11 +57,11 @@ Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings
 
 ### Setting Up Your Users
 
--   To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
+- To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
 
--   To create a **superuser account**, use this command:
+- To create a **superuser account**, use this command:
 
-        $ python manage.py createsuperuser
+    $ python manage.py createsuperuser
 
 For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
 
